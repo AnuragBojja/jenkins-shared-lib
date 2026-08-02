@@ -24,7 +24,6 @@ def call(Map configMap){
                         env.APP_VERSION = appVersion
 
                         echo """
-                        app version is : ${env.appVersion}
                         component name is : ${env.COMPONENT}
                         Project name is : ${env.PROJECT}
                         """
@@ -128,20 +127,20 @@ def call(Map configMap){
                     }
                 }
             }
-            // stage('trivy scan'){
-            //     steps{
-            //         script{
-            //             sh """
-            //             trivy image \
-            //             --scanners vuln \
-            //             --pkg-types os \
-            //             --format table \
-            //             --exit-code 1 \
-            //             --severity HIGH,CRITICAL,MEDIUM ${AWS_ACC_ID}.dkr.ecr.us-east-1.amazonaws.com/${PROJECT}/${COMPONENT}:${APP_VERSION}
-            //             """
-            //         }
-            //     }
-            // }
+            stage('trivy scan'){
+                steps{
+                    script{
+                        sh """
+                        trivy image \
+                        --scanners vuln \
+                        --pkg-types os \
+                        --format table \
+                        --exit-code 1 \
+                        --severity HIGH,CRITICAL,MEDIUM ${AWS_ACC_ID}.dkr.ecr.us-east-1.amazonaws.com/${PROJECT}/${COMPONENT}:${APP_VERSION}
+                        """
+                    }
+                }
+            }
         }
         post {
             always {
