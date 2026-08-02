@@ -153,7 +153,7 @@ def call(Map configMap){
                             propagate: false,
                             parameters: [
                                 string(name: 'ENVIRONMENT',value: 'dev'), 
-                                string(name: 'APP_VERSION',value: env.APP_VERSION ),
+                                string(name: 'APP_VERSION',value: "${APP_VERSION}"),
                                 string(name: 'DEPLOY',value: 'true'),
 
                             ]
