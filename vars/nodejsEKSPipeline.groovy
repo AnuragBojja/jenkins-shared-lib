@@ -9,8 +9,8 @@ def call(Map configMap){
             ansiColor('xterm') 
         }
         environment {
-            PROJECT = 'roboshop'
-            COMPONENT = 'catalogue'
+            PROJECT = configMap.get('project')
+            COMPONENT = configMap.get('component')
             AWS_REGION = 'us-east-1'
             AWS_ACC_ID = '793770371113'
         }
@@ -22,6 +22,13 @@ def call(Map configMap){
                         def appVersion = packageJson.version
                         echo "The application version is: ${appVersion}"
                         env.APP_VERSION = appVersion
+
+                        echo """
+                        app version is : ${env.appVersion}
+                        component name is : ${env.COMPONENT}
+                        Project name is : ${env.PROJECT}
+                        """
+                        
                     }
                 }
             }
