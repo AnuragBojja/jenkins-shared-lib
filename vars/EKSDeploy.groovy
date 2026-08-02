@@ -20,7 +20,7 @@ def call(Map configMap){
             booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Deploy to EKS after build?')
         }
         stages {
-            stage{ when { expression { return params.DEPLOY } } }
+            stage('Deploying'){ when { expression { return params.DEPLOY } } }
             stage('EKS Updating configure file'){
                 steps{
                     withAWS(region: 'us-east-1', credentials: 'aws-cred'){
