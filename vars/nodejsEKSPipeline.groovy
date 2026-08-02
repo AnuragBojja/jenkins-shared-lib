@@ -141,6 +141,23 @@ def call(Map configMap){
                     }
                 }
             }
+            stage('Deploy to Dev Env'){
+                steps{
+                    script{
+                        build (
+                            job: '../catalogue-deploy'
+                            wait: false
+                            propagate: false
+                            parameters: [
+                                string(name: 'ENVIRONMENT',value: 'dev'), 
+                                string(name: 'APP_VERSION',value: ${APP_VERSION}),
+                                string(name: 'DEPLOY',value: 'true'),
+
+                            ]
+                        )
+                    }
+                }
+            }
         }
         post {
             always {
