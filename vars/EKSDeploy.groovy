@@ -9,8 +9,8 @@ def call(Map configMap){
             ansiColor('xterm') 
         }
         environment {
-            PROJECT = 'roboshop'
-            COMPONENT = 'catalogue'
+            PROJECT = configMap.get('project')
+            COMPONENT = configMap.get('component')
             AWS_REGION = 'us-east-1'
             AWS_ACC_ID = '793770371113'
         }
