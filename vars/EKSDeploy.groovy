@@ -47,6 +47,7 @@ def call(Map configMap){
                                         echo env is: ${params.ENVIRONMENT}
                                         echo deploy to: ${params.DEPLOY}
                                         echo app version is: ${params.APP_VERSION}
+                                        helm install ${env.COMPONENT}-deploy . --set-string deployment.imageVersion="v'${params.APP_VERSION}'" --dry-run
                                     """
                                 }
                             }
