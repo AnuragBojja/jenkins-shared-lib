@@ -111,11 +111,14 @@ def call(Map configMap){
                                 blockingAlerts.add(alert)
                             }
                         }
+                        if (!blockingAlerts.isEmpty()) {
+                            error "Build failed: ${blockingAlerts.size()} high or critical Dependabot alert(s) found."
+                        }
                     }
                 }
             }
 
-            stage(build){
+            stage('Build'){
                 steps{
                     withAWS(region: 'us-east-1', credentials: 'aws-cred'){
                         sh """
@@ -150,7 +153,7 @@ def call(Map configMap){
                             propagate: false,
                             parameters: [
                                 string(name: 'ENVIRONMENT',value: 'dev'), 
-                                string(name: 'APP_VERSION',value: ${APP_VERSION}),
+                                string(name: 'APP_VERSION',value: env.APP_VERSION ),
                                 string(name: 'DEPLOY',value: 'true'),
 
                             ]
