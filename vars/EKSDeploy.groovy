@@ -44,6 +44,8 @@ def call(Map configMap){
                                     sh """
                                         aws eks update-kubeconfig --region '${AWS_REGION}' --name '${PROJECT}-${params.ENVIRONMENT}-EKS'
                                         kubectl get nodes
+                                        echo env is: ${params.ENVIRONMENT}
+                                        echo deploy to: ${params.DEPLOY}
                                     """
                                 }
                             }
