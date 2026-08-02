@@ -21,7 +21,11 @@ def call(Map configMap){
         }
         stages {
             stage('Deploying'){ 
-                when {  expression {    return params.DEPLOY   }    } 
+                when {
+                    expression {
+                        return params.DEPLOY
+                    }
+                } 
             }
             stage('EKS Updating configure file'){
                 steps{
