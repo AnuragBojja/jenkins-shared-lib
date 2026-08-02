@@ -27,6 +27,16 @@ def call(Map configMap){
                     }
                 } 
                 stages {
+                    stage('Checking the Enviroment'){
+                        when{
+                            expression{
+                                return params.ENVIRONMENT != 'dev'
+                            }
+                        }
+                        steps{
+                            error "Need permissions for QA or Prod deployment."
+                        }
+                    }
                     stage('EKS Updating configure file'){
                         steps{
                             withAWS(region: 'us-east-1', credentials: 'aws-cred'){
