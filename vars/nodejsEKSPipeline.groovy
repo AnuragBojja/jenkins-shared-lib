@@ -145,9 +145,9 @@ def call(Map configMap){
                 steps{
                     script{
                         build (
-                            job: '../catalogue-deploy'
-                            wait: false
-                            propagate: false
+                            job: '../catalogue-deploy',
+                            wait: false,
+                            propagate: false,
                             parameters: [
                                 string(name: 'ENVIRONMENT',value: 'dev'), 
                                 string(name: 'APP_VERSION',value: ${APP_VERSION}),
