@@ -46,6 +46,7 @@ def call(Map configMap){
                                         kubectl get nodes
                                         echo env is: ${params.ENVIRONMENT}
                                         echo deploy to: ${params.DEPLOY}
+                                        echo app version is: ${params.APP_VERSION}
                                     """
                                 }
                             }
