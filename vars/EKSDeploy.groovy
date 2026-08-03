@@ -49,7 +49,7 @@ def call(Map configMap){
                                         echo deploy to: ${params.DEPLOY}
                                         echo app version is: ${params.APP_VERSION}
                                         helm upgrade --install ${env.COMPONENT} . \
-                                            -f values-${params.ENVIRONMENT} \
+                                            -f values-${params.ENVIRONMENT}.yaml \
                                             -n ${PROJECT}-${params.ENVIRONMENT} \
                                             --set-string deployment.imageVersion="${params.APP_VERSION}" \
                                             --atomic \
