@@ -42,12 +42,19 @@ def call(Map configMap){
                             withAWS(region: 'us-east-1', credentials: 'aws-cred'){
                                 script{
                                     sh """
+                                        set -e
                                         aws eks update-kubeconfig --region '${AWS_REGION}' --name '${PROJECT}-${params.ENVIRONMENT}-EKS'
                                         kubectl get nodes
                                         echo env is: ${params.ENVIRONMENT}
                                         echo deploy to: ${params.DEPLOY}
                                         echo app version is: ${params.APP_VERSION}
-                                        helm install ${env.COMPONENT}-deploy . --set-string deployment.imageVersion="v${params.APP_VERSION}" --dry-run
+                                        helm upgrade --install ${env.COMPONENT} . \
+                                            -f values-${params.ENVIRONMENT} \
+                                            -n ${PROJECT}-${params.ENVIRONMENT} \
+                                            --set-string deployment.imageVersion="${params.APP_VERSION}" \
+                                            --atomic \
+                                            --timeout 5m
+
                                     """
                                 }
                             }
