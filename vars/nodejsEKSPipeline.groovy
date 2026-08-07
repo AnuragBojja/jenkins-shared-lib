@@ -51,7 +51,7 @@ def call(Map configMap){
             stage('Check Dependabot Alerts'){
                 environment {
                     GITHUB_OWNER = 'AnuragBojja'
-                    GITHUB_REPO  = 'catalogue-soner'
+                    GITHUB_REPO  = "${env.COMPONENT}"
                     GITHUB_TOKEN = credentials('github-token')
                 }
                 steps {
@@ -148,7 +148,7 @@ def call(Map configMap){
                 steps{
                     script{
                         build (
-                            job: '../catalogue-deploy',
+                            job: "../${env.COMPONENT}-deploy",
                             wait: false,
                             propagate: false,
                             parameters: [
