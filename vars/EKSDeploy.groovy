@@ -11,26 +11,24 @@ def call(Map configMap){
         environment {
             PROJECT = configMap.get('project')
             COMPONENT = configMap.get('component')
+            APP_VERSION = configMap.get('appVersion')
+            ENVIRONMENT = configMap.get('environment')
+            DEPLOY = configMap.get('deploy')
             AWS_REGION = 'us-east-1'
             AWS_ACC_ID = '793770371113'
-        }
-        parameters {
-            string(name: 'APP_VERSION', defaultValue: 'latest', description: 'What is app version?')
-            choice(name: 'ENVIRONMENT', choices: ['dev', 'qa', 'prod'], description: 'Target environment')
-            booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Deploy to EKS after build?')
         }
         stages {
             stage('Deploying'){ 
                 when {
                     expression {
-                        return params.DEPLOY
+                        return env.DEPLOY
                     }
                 } 
                 stages {
                     stage('Checking the Enviroment'){
                         when{
                             expression{
-                                return params.ENVIRONMENT != 'dev'
+                                return env.ENVIRONMENT != 'dev'
                             }
                         }
                         steps{
@@ -43,11 +41,11 @@ def call(Map configMap){
                                 script{
                                     sh """
                                         set -e
-                                        aws eks update-kubeconfig --region '${AWS_REGION}' --name '${PROJECT}-${params.ENVIRONMENT}-EKS'
+                                        aws eks update-kubeconfig --region '${AWS_REGION}' --name '${PROJECT}-${env.ENVIRONMENT}-EKS'
                                         kubectl get nodes
-                                        echo env is: ${params.ENVIRONMENT}
-                                        echo deploy to: ${params.DEPLOY}
-                                        echo app version is: ${params.APP_VERSION}
+                                        echo env is: ${env.ENVIRONMENT}
+                                        echo deploy to: ${env.DEPLOY}
+                                        echo app version is: ${env.APP_VERSION}
                                         kubectl apply -f namespace.yaml
                                     """
                                 }
@@ -60,11 +58,11 @@ def call(Map configMap){
                                 script{
                                     sh """
                                         set -e
-                                        aws eks update-kubeconfig --region '${AWS_REGION}' --name '${PROJECT}-${params.ENVIRONMENT}-EKS'
+                                        aws eks update-kubeconfig --region '${AWS_REGION}' --name '${PROJECT}-${env.ENVIRONMENT}-EKS'
                                         helm upgrade --install ${env.COMPONENT} . \
-                                            -f values-${params.ENVIRONMENT}.yaml \
-                                            -n ${PROJECT}-${params.ENVIRONMENT} \
-                                            --set-string deployment.imageVersion="${params.APP_VERSION}" \
+                                            -f values-${env.ENVIRONMENT}.yaml \
+                                            -n ${PROJECT}-${env.ENVIRONMENT} \
+                                            --set-string deployment.imageVersion="${env.APP_VERSION}" \
                                             --rollback-on-failure \
                                             --timeout 5m
 
