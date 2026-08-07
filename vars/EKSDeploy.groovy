@@ -37,7 +37,7 @@ def call(Map configMap){
                             error "Need permissions for QA or Prod deployment."
                         }
                     }
-                    stage('EKS Updating configure file'){
+                    stage('Creating Name Space'){
                         steps{
                             withAWS(region: 'us-east-1', credentials: 'aws-cred'){
                                 script{
@@ -48,6 +48,19 @@ def call(Map configMap){
                                         echo env is: ${params.ENVIRONMENT}
                                         echo deploy to: ${params.DEPLOY}
                                         echo app version is: ${params.APP_VERSION}
+                                        kubectl apply -f namespace.yaml
+                                    """
+                                }
+                            }
+                        }
+                    }
+                    stage('EKS Updating configure file'){
+                        steps{
+                            withAWS(region: 'us-east-1', credentials: 'aws-cred'){
+                                script{
+                                    sh """
+                                        set -e
+                                        aws eks update-kubeconfig --region '${AWS_REGION}' --name '${PROJECT}-${params.ENVIRONMENT}-EKS'
                                         helm upgrade --install ${env.COMPONENT} . \
                                             -f values-${params.ENVIRONMENT}.yaml \
                                             -n ${PROJECT}-${params.ENVIRONMENT} \
