@@ -11,6 +11,8 @@ def call(Map configMap){
         environment {
             PROJECT = configMap.get('project')
             COMPONENT = configMap.get('component')
+            DEPLOY = configMap.get('deploy')
+            ENVIRONMENT = configMap.get('environment')
             AWS_REGION = 'us-east-1'
             AWS_ACC_ID = '793770371113'
         }
@@ -152,10 +154,9 @@ def call(Map configMap){
                             wait: false,
                             propagate: false,
                             parameters: [
-                                string(name: 'ENVIRONMENT',value: 'dev'), 
+                                string(name: 'ENVIRONMENT',value: "${env.ENVIRONMENT}"), 
                                 string(name: 'APP_VERSION',value: "${APP_VERSION}"),
-                                string(name: 'DEPLOY',value: 'true'),
-
+                                string(name: 'DEPLOY',value: "${DEPLOY}"),
                             ]
                         )
                     }
