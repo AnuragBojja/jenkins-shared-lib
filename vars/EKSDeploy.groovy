@@ -65,7 +65,7 @@ def call(Map configMap){
                                             -f values-${params.ENVIRONMENT}.yaml \
                                             -n ${PROJECT}-${params.ENVIRONMENT} \
                                             --set-string deployment.imageVersion="${params.APP_VERSION}" \
-                                            --atomic \
+                                            --rollback-on-failure \
                                             --timeout 5m
 
                                     """
