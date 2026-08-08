@@ -37,11 +37,15 @@ def call(Map configMap){
 
             stage('Install Dependancies'){
                 steps{
-                    sh '''
-                        // mvn clean package 
-                        // mv target/shipping-1.0.jar shipping.jar 
-                        echo "skipping installing dependances"
-                    '''
+                    script{
+                        // sh '''
+                        //     mvn clean package 
+                        //     mv target/shipping-1.0.jar shipping.jar 
+                        // '''
+                        sh '''
+                            echo "skipping installing dependances"
+                        '''
+                    }
                 }
             }
 
