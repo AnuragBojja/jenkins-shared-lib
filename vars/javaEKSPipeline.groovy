@@ -26,6 +26,8 @@ def call(Map configMap){
                         echo """
                         component name is : ${env.COMPONENT}
                         Project name is : ${env.PROJECT}
+                        Enviroment is : ${ENVIRONMENT}
+                        Deploy to EKS ${DEPLOY}
                         version name is: ${pomVersion}
                         """
                         
