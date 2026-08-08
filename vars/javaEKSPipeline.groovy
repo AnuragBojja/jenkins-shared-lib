@@ -138,7 +138,6 @@ def call(Map configMap){
                     }
                 }
             }
-        }
             // // stage('trivy scan'){
             // //     steps{
             // //         script{
