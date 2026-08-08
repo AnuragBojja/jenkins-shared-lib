@@ -22,7 +22,7 @@ def call(Map configMap){
                     script {
                         def pom = readMavenPom file: 'pom.xml'
                         def pomVersion    = pom.version
-                        env.PROJECT_VERSION = pomVersion
+                        env.APP_VERSION = pomVersion
                         echo """
                         component name is : ${env.COMPONENT}
                         Project name is : ${env.PROJECT}
