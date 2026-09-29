@@ -20,7 +20,7 @@ def call(Map configMap){
             stage('Read Version') {
                 steps {
                     script {
-                        String version = new File("./version").text.trim()
+                        String version = new File("./version.txt").text.trim()
                         println "Version number is: ${version}"
                         env.APP_VERSION = version
                         echo """
